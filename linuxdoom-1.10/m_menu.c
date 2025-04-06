@@ -1889,5 +1889,12 @@ void M_Init (void)
 	break;
     }
     
+    #if OSX
+    // to fix crash if using shareware version that doesn't have ep4
+    // https://github.com/nukeykt/PCDoom-v2/issues/20
+    // Remove the fourth episode if the "m_epi4" lump is not found
+    if (W_CheckNumForName("m_epi4")<0)
+    EpiDef.numitems--;
+    #endif
 }
 

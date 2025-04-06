@@ -29,11 +29,15 @@ rcsid[] = "$Id: i_x.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
 #include <sys/ipc.h>
 #include <sys/shm.h>
 
+#ifdef OSX
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
-
 #include <X11/extensions/XShm.h>
+#endif
+
+
+
 // Had to dig up XShm.c for this one.
 // It is in the libXext, but not in the XFree86 headers.
 #ifdef LINUX
@@ -46,7 +50,12 @@ int XShmGetEventBase( Display* dpy ); // problems with g++?
 #include <sys/socket.h>
 
 #include <netinet/in.h>
+#if OSX
+#include <errno.h>
+#else
 #include <errnos.h>
+#endif
+
 #include <signal.h>
 
 #include "doomstat.h"
@@ -817,6 +826,16 @@ void I_InitGraphics(void)
 					attribmask,
 					&attribs );
 
+	#ifdef OSX
+	/*
+	https://www.deusinmachina.net/p/lets-compile-linux-doom
+	The XInstallColormap function installs the specified colormap into the X server's colormap database. 
+	Once installed, the colormap becomes available for use by windows on the specified X server. 
+	This means that any window that is using this colormap will be able to display colors from that colormap, 
+	fixing our messed up colors
+	*/
+	XInstallColormap(X_display, X_cmap);
+	#endif
     XDefineCursor(X_display, X_mainWindow,
 		  createnullcursor( X_display, X_mainWindow ) );
 

@@ -284,7 +284,18 @@ default_t	defaults[] =
 
 
     {"usegamma",&usegamma, 0},
-
+#ifdef OSX
+    {"chatmacro0", (int *) &chat_macros[0], 0 },
+    {"chatmacro1", (int *) &chat_macros[1], 0 },
+    {"chatmacro2", (int *) &chat_macros[2], 0 },
+    {"chatmacro3", (int *) &chat_macros[3], 0 },
+    {"chatmacro4", (int *) &chat_macros[4], 0 },
+    {"chatmacro5", (int *) &chat_macros[5], 0 },
+    {"chatmacro6", (int *) &chat_macros[6], 0 },
+    {"chatmacro7", (int *) &chat_macros[7], 0 },
+    {"chatmacro8", (int *) &chat_macros[8], 0 },
+    {"chatmacro9", (int *) &chat_macros[9], 0 },
+#else
     {"chatmacro0", (int *) &chat_macros[0], (int) HUSTR_CHATMACRO0 },
     {"chatmacro1", (int *) &chat_macros[1], (int) HUSTR_CHATMACRO1 },
     {"chatmacro2", (int *) &chat_macros[2], (int) HUSTR_CHATMACRO2 },
@@ -295,7 +306,7 @@ default_t	defaults[] =
     {"chatmacro7", (int *) &chat_macros[7], (int) HUSTR_CHATMACRO7 },
     {"chatmacro8", (int *) &chat_macros[8], (int) HUSTR_CHATMACRO8 },
     {"chatmacro9", (int *) &chat_macros[9], (int) HUSTR_CHATMACRO9 }
-
+#endif
 };
 
 int	numdefaults;

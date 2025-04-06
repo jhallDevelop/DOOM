@@ -27,14 +27,35 @@
 
 #ifndef __BYTEBOOL__
 #define __BYTEBOOL__
-// Fixed to use builtin bool type with C++.
-#ifdef __cplusplus
-typedef bool boolean;
+#ifdef OSX
+    // Undefine the true and false macros, so we can redefine them in our enum.
+    #ifdef true
+        #undef true
+    #endif
+    #ifdef false
+        #undef false
+    #endif
+
+    // Define the boolean type for C and C++.
+    #ifdef __cplusplus
+        typedef bool boolean;  // For C++, use the built-in bool type.
+    #else
+        #ifdef __STDBOOL_H__  // If stdbool.h is included, use the built-in bool.
+            typedef bool boolean;
+        #else  // Otherwise, define the boolean using an enum with default values.
+            typedef enum { false = 0, true = 1 } boolean;
+        #endif
+    #endif
 #else
-typedef enum {false, true} boolean;
+    // Fixed to use builtin bool type with C++.
+    #ifdef __cplusplus
+    typedef bool boolean;
+    #else
+    typedef enum {false, true} boolean;
+    #endif
 #endif
-typedef unsigned char byte;
-#endif
+typedef unsigned char byte;  // Define byte type.
+#endif  // __BYTEBOOL__
 
 
 // Predefined with some OS.

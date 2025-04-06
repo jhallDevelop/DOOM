@@ -22,8 +22,11 @@
 
 #ifndef __M_BBOX__
 #define __M_BBOX__
-
+#ifdef OSX
+#include <limits.h>
+#else
 #include <values.h>
+#endif
 
 #include "m_fixed.h"
 

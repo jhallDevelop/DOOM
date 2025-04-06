@@ -27,6 +27,11 @@
 static const char
 rcsid[] = "$Id: r_data.c,v 1.4 1997/02/03 16:47:55 b1 Exp $";
 
+#ifdef OSX
+#include  <alloca.h>
+#include <stdint.h>
+#endif
+
 #include "i_system.h"
 #include "z_zone.h"
 
@@ -44,6 +49,8 @@ rcsid[] = "$Id: r_data.c,v 1.4 1997/02/03 16:47:55 b1 Exp $";
 #ifdef LINUX
 #include  <alloca.h>
 #endif
+
+
 
 
 #include "r_data.h"
@@ -81,6 +88,19 @@ typedef struct
 // A DOOM wall texture is a list of patches
 // which are to be combined in a predefined order.
 //
+#ifdef OSX
+// Use fixed width int 
+typedef struct
+{
+    char		name[8];
+    boolean		masked;	
+    short		width;
+    short		height;
+    int		    columndirectory;	// OBSOLETE
+    short		patchcount;
+    mappatch_t	patches[1];
+} maptexture_t;
+#else
 typedef struct
 {
     char		name[8];
@@ -91,6 +111,7 @@ typedef struct
     short		patchcount;
     mappatch_t	patches[1];
 } maptexture_t;
+#endif
 
 
 // A single patch from a texture definition,
@@ -479,10 +500,17 @@ void R_InitTextures (void)
     }
     numtextures = numtextures1 + numtextures2;
 	
+    #ifdef OSX
+    textures = Z_Malloc (numtextures*sizeof(textures), PU_STATIC, 0);
+    texturecolumnlump = Z_Malloc (numtextures*sizeof(*texturecolumnlump), PU_STATIC, 0);
+    texturecolumnofs = Z_Malloc (numtextures*sizeof(*texturecolumnofs), PU_STATIC, 0);
+    texturecomposite = Z_Malloc (numtextures*sizeof(*texturecomposite), PU_STATIC, 0);
+    #else
     textures = Z_Malloc (numtextures*4, PU_STATIC, 0);
     texturecolumnlump = Z_Malloc (numtextures*4, PU_STATIC, 0);
     texturecolumnofs = Z_Malloc (numtextures*4, PU_STATIC, 0);
     texturecomposite = Z_Malloc (numtextures*4, PU_STATIC, 0);
+    #endif
     texturecompositesize = Z_Malloc (numtextures*4, PU_STATIC, 0);
     texturewidthmask = Z_Malloc (numtextures*4, PU_STATIC, 0);
     textureheight = Z_Malloc (numtextures*4, PU_STATIC, 0);
@@ -639,7 +667,11 @@ void R_InitColormaps (void)
     lump = W_GetNumForName("COLORMAP"); 
     length = W_LumpLength (lump) + 255; 
     colormaps = Z_Malloc (length, PU_STATIC, 0); 
+    #ifdef OSX
+    colormaps = (byte *)( ((intptr_t)colormaps + 255)&~0xff); 
+    #else
     colormaps = (byte *)( ((int)colormaps + 255)&~0xff); 
+    #endif
     W_ReadLump (lump,colormaps); 
 }
 

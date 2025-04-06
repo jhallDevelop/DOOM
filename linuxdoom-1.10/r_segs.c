@@ -39,6 +39,9 @@ rcsid[] = "$Id: r_segs.c,v 1.3 1997/01/29 20:10:19 b1 Exp $";
 #include "r_local.h"
 #include "r_sky.h"
 
+#if OSX
+#include <limits.h>
+#endif
 
 // OPTIMIZE: closed two sided lines as single sided
 

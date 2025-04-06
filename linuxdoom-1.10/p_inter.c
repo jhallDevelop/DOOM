@@ -46,6 +46,9 @@ rcsid[] = "$Id: p_inter.c,v 1.4 1997/02/03 22:45:11 b1 Exp $";
 #pragma implementation "p_inter.h"
 #endif
 #include "p_inter.h"
+#if OSX
+#include <limits.h>
+#endif
 
 
 #define BONUSADD	6

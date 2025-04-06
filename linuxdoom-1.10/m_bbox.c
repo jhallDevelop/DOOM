@@ -33,6 +33,13 @@ rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
 #endif
 #include "m_bbox.h"
 
+#ifdef OSX
+// Max pos 32-bit int.
+#define MAXINT		((int)0x7fffffff)	
+
+// Max negative 32-bit integer.
+#define MININT		((int)0x80000000)	
+#endif
 
 
 

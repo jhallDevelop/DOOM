@@ -783,7 +783,11 @@ void AM_doFollowPlayer(void)
 //
 void AM_updateLightLev(void)
 {
-    static nexttic = 0;
+	#ifdef OSX
+    static int nexttic = 0;
+	#else
+	static nexttic = 0;
+	#endif
     //static int litelevels[] = { 0, 3, 5, 6, 6, 7, 7, 7 };
     static int litelevels[] = { 0, 4, 7, 10, 12, 14, 15, 15 };
     static int litelevelscnt = 0;
@@ -856,9 +860,15 @@ AM_clipMline
 	TOP	=8
     };
     
-    register	outcode1 = 0;
+	#ifdef OSX
+    register	int outcode1 = 0;
+    register	int outcode2 = 0;
+    register	int outside;
+	#else
+	register	outcode1 = 0;
     register	outcode2 = 0;
     register	outside;
+	#endif
     
     fpoint_t	tmp;
     int		dx;
@@ -989,7 +999,11 @@ AM_drawFline
     register int ay;
     register int d;
     
-    static fuck = 0;
+	#ifdef OSX
+    static int fuck = 0;
+	#else
+	static fuck = 0;
+	#endif
 
     // For debugging only
     if (      fl->a.x < 0 || fl->a.x >= f_w
