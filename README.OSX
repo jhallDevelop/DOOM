@@ -1,0 +1,16 @@
+# Instructions  
+Guide from https://www.deusinmachina.net/p/lets-compile-linux-doom  
+#  Install brew install --cask xquartz  
+Ensure xquartz is running 
+
+Check display used
+xdpyinfo | grep 'depth of root window'
+
+# Run  
+In a seperate terminal run  
+sudo Xephyr :2 -ac -screen 640x480x8 
+
+// then run the following to start the game. ensure the .wad is located in the same directory as the binary. 
+Also run the command from inside the same directory as the binary and wad to fix any working directory issues.
+DISPLAY=:2 ./linuxxdoom -file doom.wad
+
