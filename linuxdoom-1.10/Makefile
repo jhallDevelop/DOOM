@@ -5,10 +5,12 @@
 # $Log:$
 #
 CC=  gcc  # gcc or g++
+PLATFORM = OSX  # Change to LINUX if needed
+CFLAGS = -g -Wall -D$(PLATFORM) -I/opt/X11/include  # Commented options below:
+# CFLAGS += -DUSEASM -DLINUX -DNORMALUNIX
 
-CFLAGS=-g -Wall -DNORMALUNIX -DLINUX # -DUSEASM 
-LDFLAGS=-L/usr/X11R6/lib
-LIBS=-lXext -lX11 -lnsl -lm
+LDFLAGS= -L/opt/X11/lib#-L/usr/X11R6/lib
+LIBS=-lXext -lX11 -lm #-lnsl
 
 # subdirectory for objects
 O=linux
